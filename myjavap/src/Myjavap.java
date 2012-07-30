@@ -211,8 +211,7 @@ public class Myjavap {
         }
     }
 
-    public static void readAttribute()
-            throws Exception {
+    public static void readAttribute() throws Exception {
         int attribute_name_index = br.readU2();
         String attribute_name = strings[attribute_name_index];
         long attribute_length = br.readU4();
