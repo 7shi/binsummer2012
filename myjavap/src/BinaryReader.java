@@ -1,3 +1,4 @@
+// public domain
 
 public class BinaryReader {
 
