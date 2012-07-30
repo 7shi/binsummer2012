@@ -241,6 +241,9 @@ public class Myjavap {
 
                 int exception_table_length = br.readU2();
                 printfln("exception_table_length: %d", exception_table_length);
+                if (exception_table_length > 0) {
+                    throw new Exception("ABORT: exception table not supported");
+                }
 
                 int attributes_count = br.readU2();
                 printfln("attributes_count: %d", attributes_count);
