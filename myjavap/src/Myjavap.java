@@ -59,8 +59,7 @@ public class Myjavap {
         }
     }
 
-    public static void read(byte[] data) throws Exception {
-        br = new BinaryReader(data);
+    public static void read() throws Exception {
         long magic = br.readU4();
         int minor_version = br.readU2();
         int major_version = br.readU2();
@@ -271,7 +270,8 @@ public class Myjavap {
             }
             dumpHexAscii(data);
             System.out.println();
-            read(data);
+            br = new BinaryReader(data);
+            read();
         } catch (Exception ex) {
             System.out.println(ex);
         }
