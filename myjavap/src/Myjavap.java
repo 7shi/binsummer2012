@@ -26,7 +26,7 @@ public class Myjavap {
     public static void dumpHexAscii(byte[] data) {
         for (int i = 0; i < data.length; i += 16) {
             System.out.printf("%08X ", i);
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder("  ");
             for (int j = 0; j < 16; j++) {
                 if (j == 8) {
                     System.out.print(" ");
@@ -39,7 +39,6 @@ public class Myjavap {
                     System.out.print("   ");
                 }
             }
-            System.out.print("  ");
             System.out.println(sb.toString());
         }
     }
