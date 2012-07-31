@@ -9,26 +9,6 @@ public class Myjavap {
     private static BinaryReader br;
     private static String[] strings;
 
-    public static void main(String[] args) {
-        try {
-            File f = new File("build/classes/Hello.class");
-            long length = f.length();
-            if (length > Integer.MAX_VALUE) {
-                throw new Exception("file is too long");
-            }
-            byte[] data;
-            try (FileInputStream s = new FileInputStream(f.getPath())) {
-                data = new byte[(int) length];
-                s.read(data, 0, (int) length);
-            }
-            dumpHexAscii(data);
-            System.out.println();
-            read(data);
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
-
     public static void printIndent() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < indent; i++) {
@@ -275,6 +255,26 @@ public class Myjavap {
                 --indent;
                 break;
             }
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            File f = new File("build/classes/Hello.class");
+            long length = f.length();
+            if (length > Integer.MAX_VALUE) {
+                throw new Exception("file is too long");
+            }
+            byte[] data;
+            try (FileInputStream s = new FileInputStream(f.getPath())) {
+                data = new byte[(int) length];
+                s.read(data, 0, (int) length);
+            }
+            dumpHexAscii(data);
+            System.out.println();
+            read(data);
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 }
