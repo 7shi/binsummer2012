@@ -9,18 +9,25 @@ public class Myjavap {
     private static BinaryReader br;
     private static String[] strings;
 
-    public static String getIndent() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < indent; i++) {
-            sb.append("  ");
+    public static void main(String[] args) {
+        try {
+            File f = new File("build/classes/Hello.class");
+            long length = f.length();
+            if (length > Integer.MAX_VALUE) {
+                throw new Exception("file is too long");
+            }
+            byte[] data;
+            try (FileInputStream s = new FileInputStream(f.getPath())) {
+                data = new byte[(int) length];
+                s.read(data, 0, (int) length);
+            }
+            BinaryReader.dumpHexAscii(data);
+            System.out.println();
+            br = new BinaryReader(data);
+            read();
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
-        return sb.toString();
-    }
-
-    public static void printfln(String format, Object... args) {
-        System.out.print(getIndent());
-        System.out.printf(format, args);
-        System.out.println();
     }
 
     public static void read() throws Exception {
@@ -220,24 +227,17 @@ public class Myjavap {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            File f = new File("build/classes/Hello.class");
-            long length = f.length();
-            if (length > Integer.MAX_VALUE) {
-                throw new Exception("file is too long");
-            }
-            byte[] data;
-            try (FileInputStream s = new FileInputStream(f.getPath())) {
-                data = new byte[(int) length];
-                s.read(data, 0, (int) length);
-            }
-            BinaryReader.dumpHexAscii(data);
-            System.out.println();
-            br = new BinaryReader(data);
-            read();
-        } catch (Exception ex) {
-            System.out.println(ex);
+    public static String getIndent() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < indent; i++) {
+            sb.append("  ");
         }
+        return sb.toString();
+    }
+
+    public static void printfln(String format, Object... args) {
+        System.out.print(getIndent());
+        System.out.printf(format, args);
+        System.out.println();
     }
 }
