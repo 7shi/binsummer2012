@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 
 public class Myjavap {
 
-    private static String ind = "";
+    private static int indent = 0;
     private static BinaryReader br;
     private static String[] strings;
 
@@ -29,18 +29,18 @@ public class Myjavap {
         }
     }
 
+    public static void printIndent() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < indent; i++) {
+            sb.append("  ");
+        }
+        System.out.print(sb.toString());
+    }
+
     public static void printfln(String format, Object... args) {
-        System.out.print(ind);
+        printIndent();
         System.out.printf(format, args);
         System.out.println();
-    }
-
-    public static void indent() {
-        ind += "  ";
-    }
-
-    public static void unindent() {
-        ind = ind.substring(2);
     }
 
     public static void dumpHexAscii(byte[] data) {
@@ -66,7 +66,7 @@ public class Myjavap {
 
     public static void dump(byte[] data) {
         for (int i = 0; i < data.length; i += 16) {
-            System.out.print(ind);
+            printIndent();
             for (int j = 0; j < 16; j++) {
                 if (i + j >= data.length) {
                     break;
@@ -94,9 +94,9 @@ public class Myjavap {
         printfln("constant_pool_count: %d", constant_pool_count);
         for (int i = 1; i < constant_pool_count; i++) {
             printfln("#%d", i);
-            indent();
+            ++indent;
             readConstant(i);
-            unindent();
+            --indent;
         }
 
         int access_flags = br.readU2();
@@ -122,24 +122,25 @@ public class Myjavap {
         printfln("methods_count: %d", methods_count);
         for (int i = 0; i < methods_count; i++) {
             printfln("methods[%d]:", i);
-            indent();
+            ++indent;
             readMethod();
-            unindent();
+            --indent;
         }
 
         int attributes_count = br.readU2();
         printfln("attributes_count: %d", attributes_count);
         for (int i = 0; i < attributes_count; i++) {
             printfln("attributes[%d]:", i);
-            indent();
+            ++indent;
             readAttribute();
-            unindent();
+            --indent;
         }
     }
 
     public static void readConstant(int no) throws Exception {
         int tag = br.readU1();
-        System.out.printf(ind + "tag: %d = ", tag);
+        printIndent();
+        System.out.printf("tag: %d = ", tag);
         switch (tag) {
             case 1: {
                 System.out.println("Utf8");
@@ -205,9 +206,9 @@ public class Myjavap {
         printfln("attributes_count: %d", attributes_count);
         for (int j = 0; j < attributes_count; j++) {
             printfln("attributes[%d]:", j);
-            indent();
+            ++indent;
             readAttribute();
-            unindent();
+            --indent;
         }
     }
 
@@ -235,9 +236,9 @@ public class Myjavap {
 
                 byte[] code = br.readBytes((int) code_length);
                 printfln("code:");
-                indent();
+                ++indent;
                 dump(code);
-                unindent();
+                --indent;
 
                 int exception_table_length = br.readU2();
                 printfln("exception_table_length: %d", exception_table_length);
@@ -249,9 +250,9 @@ public class Myjavap {
                 printfln("attributes_count: %d", attributes_count);
                 for (int i = 0; i < attributes_count; i++) {
                     printfln("attributes[%d]:", i);
-                    indent();
+                    ++indent;
                     readAttribute();
-                    unindent();
+                    --indent;
                 }
                 break;
             }
@@ -269,9 +270,9 @@ public class Myjavap {
             default: {
                 byte[] info = br.readBytes((int) attribute_length);
                 printfln("info:");
-                indent();
+                ++indent;
                 dump(info);
-                unindent();
+                --indent;
                 break;
             }
         }
