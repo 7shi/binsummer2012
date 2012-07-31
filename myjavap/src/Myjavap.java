@@ -9,16 +9,16 @@ public class Myjavap {
     private static BinaryReader br;
     private static String[] strings;
 
-    public static void printIndent() {
+    public static String getIndent() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < indent; i++) {
             sb.append("  ");
         }
-        System.out.print(sb.toString());
+        return sb.toString();
     }
 
     public static void printfln(String format, Object... args) {
-        printIndent();
+        System.out.print(getIndent());
         System.out.printf(format, args);
         System.out.println();
     }
@@ -43,9 +43,9 @@ public class Myjavap {
         }
     }
 
-    public static void dump(byte[] data) {
+    public static void dump(byte[] data, String indent) {
         for (int i = 0; i < data.length; i += 16) {
-            printIndent();
+            System.out.print(indent);
             for (int j = 0; j < 16; j++) {
                 if (i + j >= data.length) {
                     break;
@@ -117,7 +117,7 @@ public class Myjavap {
 
     public static void readConstant(int no) throws Exception {
         int tag = br.readU1();
-        printIndent();
+        System.out.print(getIndent());
         System.out.printf("tag: %d = ", tag);
         switch (tag) {
             case 1: {
@@ -215,7 +215,7 @@ public class Myjavap {
                 byte[] code = br.readBytes((int) code_length);
                 printfln("code:");
                 ++indent;
-                dump(code);
+                dump(code, getIndent());
                 --indent;
 
                 int exception_table_length = br.readU2();
@@ -249,7 +249,7 @@ public class Myjavap {
                 byte[] info = br.readBytes((int) attribute_length);
                 printfln("info:");
                 ++indent;
-                dump(info);
+                dump(info, getIndent());
                 --indent;
                 break;
             }
