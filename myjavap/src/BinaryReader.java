@@ -51,4 +51,40 @@ public class BinaryReader {
         pos += len;
         return ret;
     }
+
+    public static void dumpHexAscii(byte[] data) {
+        for (int i = 0; i < data.length; i += 16) {
+            System.out.printf("%08X ", i);
+            StringBuilder sb = new StringBuilder("  ");
+            for (int j = 0; j < 16; j++) {
+                if (j == 8) {
+                    System.out.print(" ");
+                }
+                if (i + j < data.length) {
+                    byte b = data[i + j];
+                    System.out.printf(" %02X", b);
+                    sb.append(b < 32 || b >= 127 ? '.' : (char) b);
+                } else {
+                    System.out.print("   ");
+                }
+            }
+            System.out.println(sb.toString());
+        }
+    }
+
+    public static void dump(byte[] data, String indent) {
+        for (int i = 0; i < data.length; i += 16) {
+            System.out.print(indent);
+            for (int j = 0; j < 16; j++) {
+                if (i + j >= data.length) {
+                    break;
+                }
+                if (j > 0) {
+                    System.out.print(" ");
+                }
+                System.out.printf("%02x", data[i + j]);
+            }
+            System.out.println();
+        }
+    }
 }

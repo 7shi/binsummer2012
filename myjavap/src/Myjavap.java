@@ -23,42 +23,6 @@ public class Myjavap {
         System.out.println();
     }
 
-    public static void dumpHexAscii(byte[] data) {
-        for (int i = 0; i < data.length; i += 16) {
-            System.out.printf("%08X ", i);
-            StringBuilder sb = new StringBuilder("  ");
-            for (int j = 0; j < 16; j++) {
-                if (j == 8) {
-                    System.out.print(" ");
-                }
-                if (i + j < data.length) {
-                    byte b = data[i + j];
-                    System.out.printf(" %02X", b);
-                    sb.append(b < 32 || b >= 127 ? '.' : (char) b);
-                } else {
-                    System.out.print("   ");
-                }
-            }
-            System.out.println(sb.toString());
-        }
-    }
-
-    public static void dump(byte[] data, String indent) {
-        for (int i = 0; i < data.length; i += 16) {
-            System.out.print(indent);
-            for (int j = 0; j < 16; j++) {
-                if (i + j >= data.length) {
-                    break;
-                }
-                if (j > 0) {
-                    System.out.print(" ");
-                }
-                System.out.printf("%02x", data[i + j]);
-            }
-            System.out.println();
-        }
-    }
-
     public static void read() throws Exception {
         long magic = br.readU4();
         int minor_version = br.readU2();
@@ -215,7 +179,7 @@ public class Myjavap {
                 byte[] code = br.readBytes((int) code_length);
                 printfln("code:");
                 ++indent;
-                dump(code, getIndent());
+                BinaryReader.dump(code, getIndent());
                 --indent;
 
                 int exception_table_length = br.readU2();
@@ -249,7 +213,7 @@ public class Myjavap {
                 byte[] info = br.readBytes((int) attribute_length);
                 printfln("info:");
                 ++indent;
-                dump(info, getIndent());
+                BinaryReader.dump(info, getIndent());
                 --indent;
                 break;
             }
@@ -268,7 +232,7 @@ public class Myjavap {
                 data = new byte[(int) length];
                 s.read(data, 0, (int) length);
             }
-            dumpHexAscii(data);
+            BinaryReader.dumpHexAscii(data);
             System.out.println();
             br = new BinaryReader(data);
             read();
