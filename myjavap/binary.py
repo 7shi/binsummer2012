@@ -1,6 +1,6 @@
 # public domain
 
-import sys
+import sys, struct
 
 class reader:
     def __init__(self, data):
@@ -13,16 +13,12 @@ class reader:
         return ret
 
     def readU2(self):
-        ret = (ord(self.data[self.pos]) << 8) \
-            |  ord(self.data[self.pos + 1])
+        ret, = struct.unpack(">H", self.data[self.pos:self.pos+2])
         self.pos += 2
         return ret
 
     def readU4(self):
-        ret = (ord(self.data[self.pos    ]) << 24) \
-            | (ord(self.data[self.pos + 1]) << 16) \
-            | (ord(self.data[self.pos + 2]) <<  8) \
-            |  ord(self.data[self.pos + 3])
+        ret, = struct.unpack(">L", self.data[self.pos:self.pos+4])
         self.pos += 4
         return ret
 
