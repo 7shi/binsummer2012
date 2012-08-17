@@ -1,6 +1,6 @@
 # public domain
 
-import sys, struct
+import struct
 
 class reader:
     def __init__(self, data):
@@ -31,28 +31,13 @@ class reader:
         return self.readBytes(len).decode("utf8")
 
 def dumpHexAscii(data):
-    i = 0
-    while i < len(data):
-        sys.stdout.write("%08X " % i)
-        sb = "  "
-        for j in range(16):
-            if j == 8: sys.stdout.write(" ")
-            if i + j < len(data):
-                b = ord(data[i + j])
-                sys.stdout.write(" %02X" % b)
-                sb += "." if b < 32 or b >= 127 else chr(b)
-            else:
-                sys.stdout.write("   ")
-        print sb
-        i += 16
+    for i in range(0, len(data), 16):
+        buf = data[i : min(i + 16, len(data))]
+        dump = " ".join(["%02X" % ord(x) for x in buf]).ljust(47)
+        print "%08X  %s %s  %s" % (i, dump[:24], dump[24:],
+            "".join([x if " " <= x <= "~" else "." for x in buf]))
 
 def dump(data, indent):
-    i = 0
-    while i < len(data):
-        sys.stdout.write(indent)
-        for j in range(16):
-            if i + j >= len(data): break
-            if j > 0: sys.stdout.write(" ")
-            sys.stdout.write("%02x" % ord(data[i + j]))
-        print
-        i += 16
+    for i in range(0, len(data), 16):
+        buf = data[i : min(i + 16, len(data))]
+        print indent + " ".join(["%02x" % ord(x) for x in buf])
