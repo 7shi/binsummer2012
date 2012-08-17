@@ -202,7 +202,7 @@ def readCode(code_length):
             len = 3
             mne = "invokespecial #%d" % br.readU2()
         br.seek(-len)
-        println("%-10s%s" % (
+        println("%04x %-10s%s" % (i,
             " ".join("%02x" % ord(b) for b in br.readBytes(len)),
             mne))
         i += len

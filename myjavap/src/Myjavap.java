@@ -285,7 +285,7 @@ public class Myjavap {
             for (byte b : br.readBytes(len)) {
                 sb.append(String.format("%02x ", b));
             }
-            printfln("%-10s%s", sb, mne);
+            printfln("%04x %-10s%s", i, sb, mne);
             i += len;
         }
     }
