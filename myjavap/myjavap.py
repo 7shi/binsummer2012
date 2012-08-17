@@ -138,10 +138,9 @@ def readAttribute():
         println("max_locals: %d" % max_locals)
         println("code_length: %d" % code_length)
 
-        code = br.readBytes(code_length)
         println("code:")
         indent += 1
-        binary.dump(code, getIndent())
+        readCode(code_length)
         indent -= 1
 
         exception_table_length = br.readU2()
@@ -172,6 +171,41 @@ def readAttribute():
         indent += 1
         binary.dump(info, getIndent())
         indent -= 1
+
+def readCode(code_length):
+    i = 0
+    while i < code_length:
+        len = 1
+        mne = "?"
+        op = br.readU1()
+        if op == 0x02:
+            mne = "iconst_m1"
+        elif 0x03 <= op <= 0x08:
+            mne = "iconst_%d" % (op - 0x03)
+        elif 0x1a <= op <= 0x1d:
+            mne = "iload_%d" % (op - 0x1a)
+        elif 0x2a <= op <= 0x2d:
+            mne = "aload_%d" % (op - 0x2a)
+        elif 0x3b <= op <= 0x3e:
+            mne = "istore_%d" % (op - 0x3b)
+        elif op == 0x60:
+            mne = "iadd"
+        elif op == 0xb1:
+            mne = "return"
+        elif op == 0xb2:
+            len = 3
+            mne = "getstatic #%d" % br.readU2()
+        elif op == 0xb6:
+            len = 3
+            mne = "invokevirtual #%d" % br.readU2()
+        elif op == 0xb7:
+            len = 3
+            mne = "invokespecial #%d" % br.readU2()
+        br.seek(-len)
+        println("%-10s%s" % (
+            " ".join("%02x" % ord(b) for b in br.readBytes(len)),
+            mne))
+        i += len
 
 def getIndent():
     return "  " * indent
