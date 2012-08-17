@@ -230,63 +230,36 @@ public class Myjavap {
         for (int i = 0; i < code_length;) {
             int len = 1;
             String mne = "?";
-            switch (br.readU1()) {
+            int op = br.readU1();
+            switch (op) {
                 case 0x02:
                     mne = "iconst_m1";
                     break;
                 case 0x03:
-                    mne = "iconst_0";
-                    break;
                 case 0x04:
-                    mne = "iconst_1";
-                    break;
                 case 0x05:
-                    mne = "iconst_2";
-                    break;
                 case 0x06:
-                    mne = "iconst_3";
-                    break;
                 case 0x07:
-                    mne = "iconst_4";
-                    break;
                 case 0x08:
-                    mne = "iconst_5";
+                    mne = "iconst_" + (op - 0x03);
                     break;
                 case 0x1a:
-                    mne = "iload_0";
-                    break;
                 case 0x1b:
-                    mne = "iload_1";
-                    break;
                 case 0x1c:
-                    mne = "iload_2";
-                    break;
                 case 0x1d:
-                    mne = "iload_3";
+                    mne = "iload_" + (op - 0x1a);
                     break;
                 case 0x2a:
-                    mne = "aload_0";
-                    break;
                 case 0x2b:
-                    mne = "aload_1";
-                    break;
                 case 0x2c:
-                    mne = "aload_2";
-                    break;
                 case 0x2d:
-                    mne = "aload_3";
+                    mne = "aload_" + (op - 0x2a);
                     break;
                 case 0x3b:
-                    mne = "istore_0";
-                    break;
                 case 0x3c:
-                    mne = "istore_1";
-                    break;
                 case 0x3d:
-                    mne = "istore_2";
-                    break;
                 case 0x3e:
-                    mne = "istore_3";
+                    mne = "istore_" + (op - 0x3b);
                     break;
                 case 0x60:
                     mne = "iadd";
