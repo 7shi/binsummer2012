@@ -183,10 +183,9 @@ public class Myjavap {
                 printfln("max_locals: %d", max_locals);
                 printfln("code_length: %d", code_length);
 
-                byte[] code = br.readBytes((int) code_length);
                 printfln("code:");
                 ++indent;
-                BinaryReader.dump(code, getIndent());
+                readCode((int) code_length);
                 --indent;
 
                 int exception_table_length = br.readU2();
@@ -224,6 +223,97 @@ public class Myjavap {
                 --indent;
                 break;
             }
+        }
+    }
+
+    public static void readCode(int code_length) {
+        for (int i = 0; i < code_length;) {
+            int len = 1;
+            String mne = "?";
+            switch (br.readU1()) {
+                case 0x02:
+                    mne = "iconst_m1";
+                    break;
+                case 0x03:
+                    mne = "iconst_0";
+                    break;
+                case 0x04:
+                    mne = "iconst_1";
+                    break;
+                case 0x05:
+                    mne = "iconst_2";
+                    break;
+                case 0x06:
+                    mne = "iconst_3";
+                    break;
+                case 0x07:
+                    mne = "iconst_4";
+                    break;
+                case 0x08:
+                    mne = "iconst_5";
+                    break;
+                case 0x1a:
+                    mne = "iload_0";
+                    break;
+                case 0x1b:
+                    mne = "iload_1";
+                    break;
+                case 0x1c:
+                    mne = "iload_2";
+                    break;
+                case 0x1d:
+                    mne = "iload_3";
+                    break;
+                case 0x2a:
+                    mne = "aload_0";
+                    break;
+                case 0x2b:
+                    mne = "aload_1";
+                    break;
+                case 0x2c:
+                    mne = "aload_2";
+                    break;
+                case 0x2d:
+                    mne = "aload_3";
+                    break;
+                case 0x3b:
+                    mne = "istore_0";
+                    break;
+                case 0x3c:
+                    mne = "istore_1";
+                    break;
+                case 0x3d:
+                    mne = "istore_2";
+                    break;
+                case 0x3e:
+                    mne = "istore_3";
+                    break;
+                case 0x60:
+                    mne = "iadd";
+                    break;
+                case 0xb1:
+                    mne = "return";
+                    break;
+                case 0xb2:
+                    len = 3;
+                    mne = "getstatic #" + br.readU2();
+                    break;
+                case 0xb6:
+                    len = 3;
+                    mne = "invokevirtual #" + br.readU2();
+                    break;
+                case 0xb7:
+                    len = 3;
+                    mne = "invokespecial #" + br.readU2();
+                    break;
+            }
+            StringBuilder sb = new StringBuilder();
+            br.seek(-len);
+            for (byte b : br.readBytes(len)) {
+                sb.append(String.format("%02x ", b));
+            }
+            printfln("%-10s%s", sb, mne);
+            i += len;
         }
     }
 

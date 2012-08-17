@@ -52,6 +52,10 @@ public class BinaryReader {
         return ret;
     }
 
+    public void seek(int offset) {
+        pos += offset;
+    }
+
     public static void dumpHexAscii(byte[] data) {
         for (int i = 0; i < data.length; i += 16) {
             System.out.printf("%08X ", i);
