@@ -36,11 +36,11 @@ class reader:
 def dumpHexAscii(data):
     for i in range(0, len(data), 16):
         buf = data[i : min(i + 16, len(data))]
-        dump = " ".join(["%02X" % ord(x) for x in buf]).ljust(47)
+        dump = " ".join("%02X" % ord(x) for x in buf).ljust(47)
         print "%08X %s-%s %s" % (i, dump[:23], dump[24:],
-            "".join([x if " " <= x <= "~" else "." for x in buf]))
+            "".join(x if " " <= x <= "~" else "." for x in buf))
 
 def dump(data, indent):
     for i in range(0, len(data), 16):
         buf = data[i : min(i + 16, len(data))]
-        print indent + " ".join(["%02x" % ord(x) for x in buf])
+        print indent + " ".join("%02x" % ord(x) for x in buf)
