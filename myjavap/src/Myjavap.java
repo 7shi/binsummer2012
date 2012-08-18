@@ -30,7 +30,7 @@ public class Myjavap {
         }
     }
 
-    public static void read() throws Exception {
+    private static void read() throws Exception {
         long magic = br.readU4();
         int minor_version = br.readU2();
         int major_version = br.readU2();
@@ -86,7 +86,7 @@ public class Myjavap {
         }
     }
 
-    public static void readConstant(int no) throws Exception {
+    private static void readConstant(int no) throws Exception {
         int tag = br.readU1();
         System.out.print(getIndent());
         System.out.printf("tag: %d = ", tag);
@@ -142,7 +142,7 @@ public class Myjavap {
         }
     }
 
-    public static void readMethod() throws Exception {
+    private static void readMethod() throws Exception {
         int access_flags = br.readU2();
         int name_index = br.readU2();
         int descriptor_index = br.readU2();
@@ -161,7 +161,7 @@ public class Myjavap {
         }
     }
 
-    public static void readAttribute() throws Exception {
+    private static void readAttribute() throws Exception {
         int attribute_name_index = br.readU2();
         String attribute_name = strings[attribute_name_index];
         long attribute_length = br.readU4();
@@ -232,7 +232,7 @@ public class Myjavap {
         }
     }
 
-    public static void readCode(int code_length) {
+    private static void readCode(int code_length) {
         for (int i = 0; i < code_length;) {
             String mne = "?";
             int pos = br.getPos();
@@ -297,7 +297,7 @@ public class Myjavap {
         }
     }
 
-    public static String getIndent() {
+    private static String getIndent() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < indent; i++) {
             sb.append("  ");
@@ -305,7 +305,7 @@ public class Myjavap {
         return sb.toString();
     }
 
-    public static void printfln(String format, Object... args) {
+    private static void printfln(String format, Object... args) {
         System.out.print(getIndent());
         System.out.printf(format, args);
         System.out.println();
