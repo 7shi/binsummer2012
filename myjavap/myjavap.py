@@ -129,7 +129,7 @@ def readAttribute():
     println("attribute_name_index: %d \"%s\"" % (
             attribute_name_index, attribute_name))
     println("attribute_length: %d" % attribute_length)
-    
+
     if attribute_name == "Code":
         max_stack = br.readU2()
         max_locals = br.readU2()
@@ -155,7 +155,7 @@ def readAttribute():
             indent += 1
             readAttribute()
             indent -= 1
-    
+
     elif attribute_name == "LineNumberTable":
         line_number_table_length = br.readU2()
         println("line_number_table_length: %d" %
@@ -164,7 +164,7 @@ def readAttribute():
             start_pc = br.readU2()
             line_number = br.readU2()
             println("%04x: %d" % (start_pc, line_number))
-    
+
     else:
         info = br.readBytes(attribute_length)
         println("info:")
