@@ -182,6 +182,8 @@ def readCode(code_length):
             mne = "iconst_m1"
         elif 0x03 <= op <= 0x08:
             mne = "iconst_%d" % (op - 0x03)
+        elif op == 0x12:
+            mne = "ldc #%d" % br.readU1()
         elif 0x1a <= op <= 0x1d:
             mne = "iload_%d" % (op - 0x1a)
         elif 0x2a <= op <= 0x2d:

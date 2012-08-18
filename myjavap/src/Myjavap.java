@@ -243,6 +243,9 @@ public class Myjavap {
                 case 0x08:
                     mne = "iconst_" + (op - 0x03);
                     break;
+                case 0x12:
+                    mne = "ldc #" + br.readU1();
+                    break;
                 case 0x1a:
                 case 0x1b:
                 case 0x1c:
