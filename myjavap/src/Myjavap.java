@@ -215,6 +215,12 @@ public class Myjavap {
                 }
                 break;
             }
+            case "SourceFile": {
+                int sourcefile_index = br.readU2();
+                printfln("sourcefile_index: %d \"%s\"",
+                        sourcefile_index, strings[sourcefile_index]);
+                break;
+            }
             default: {
                 byte[] info = br.readBytes((int) attribute_length);
                 printfln("info:");

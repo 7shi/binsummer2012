@@ -165,6 +165,11 @@ def readAttribute():
             line_number = br.readU2()
             println("%04x: %d" % (start_pc, line_number))
 
+    elif attribute_name == "SourceFile":
+        sourcefile_index = br.readU2()
+        println("sourcefile_index: %d \"%s\"" % (
+                sourcefile_index, strings[sourcefile_index]))
+
     else:
         info = br.readBytes(attribute_length)
         println("info:")
