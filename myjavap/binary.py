@@ -30,9 +30,6 @@ class reader:
     def readString(self, len):
         return self.readBytes(len).decode("utf8")
 
-    def seek(self, offset):
-        self.pos += offset
-
 def dumpHexAscii(data):
     for i in range(0, len(data), 16):
         buf = data[i : min(i + 16, len(data))]

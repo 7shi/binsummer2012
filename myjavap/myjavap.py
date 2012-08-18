@@ -175,8 +175,8 @@ def readAttribute():
 def readCode(code_length):
     i = 0
     while i < code_length:
-        len = 1
         mne = "?"
+        pos = br.pos
         op = br.readU1()
         if op == 0x02:
             mne = "iconst_m1"
@@ -193,15 +193,13 @@ def readCode(code_length):
         elif op == 0xb1:
             mne = "return"
         elif op == 0xb2:
-            len = 3
             mne = "getstatic #%d" % br.readU2()
         elif op == 0xb6:
-            len = 3
             mne = "invokevirtual #%d" % br.readU2()
         elif op == 0xb7:
-            len = 3
             mne = "invokespecial #%d" % br.readU2()
-        br.seek(-len)
+        len = br.pos - pos
+        br.pos = pos
         println("%04x %-10s%s" % (i,
             " ".join("%02x" % ord(b) for b in br.readBytes(len)),
             mne))

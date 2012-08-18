@@ -9,6 +9,14 @@ public class BinaryReader {
         this.data = data;
     }
 
+    public int getPos() {
+        return pos;
+    }
+
+    public void setPos(int newpos) {
+        pos = newpos;
+    }
+
     public int readU1() {
         int ret = data[pos] & 0xff;
         ++pos;
@@ -50,10 +58,6 @@ public class BinaryReader {
         }
         pos += len;
         return ret;
-    }
-
-    public void seek(int offset) {
-        pos += offset;
     }
 
     public static void dumpHexAscii(byte[] data) {

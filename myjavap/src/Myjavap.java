@@ -228,8 +228,8 @@ public class Myjavap {
 
     public static void readCode(int code_length) {
         for (int i = 0; i < code_length;) {
-            int len = 1;
             String mne = "?";
+            int pos = br.getPos();
             int op = br.readU1();
             switch (op) {
                 case 0x02:
@@ -268,20 +268,18 @@ public class Myjavap {
                     mne = "return";
                     break;
                 case 0xb2:
-                    len = 3;
                     mne = "getstatic #" + br.readU2();
                     break;
                 case 0xb6:
-                    len = 3;
                     mne = "invokevirtual #" + br.readU2();
                     break;
                 case 0xb7:
-                    len = 3;
                     mne = "invokespecial #" + br.readU2();
                     break;
             }
             StringBuilder sb = new StringBuilder();
-            br.seek(-len);
+            int len = br.getPos() - pos;
+            br.setPos(pos);
             for (byte b : br.readBytes(len)) {
                 sb.append(String.format("%02x ", b));
             }
