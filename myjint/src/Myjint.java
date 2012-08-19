@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 
 public class Myjint {
 
-    private static BinaryReader br;
-
     public static void main(String[] args) {
         try {
             File f = new File("build/classes/Hello.class");
@@ -19,13 +17,11 @@ public class Myjint {
                 data = new byte[(int) length];
                 s.read(data, 0, (int) length);
             }
-            br = new BinaryReader(data);
-            read();
+            BinaryReader br = new BinaryReader(data);
+            ClassFile cf = new ClassFile(br);
+            cf.run();
         } catch (Exception ex) {
             System.out.println(ex);
         }
-    }
-
-    private static void read() {
     }
 }
