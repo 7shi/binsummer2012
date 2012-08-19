@@ -10,4 +10,9 @@ public class ConstantUtf8 extends Constant {
         length = br.readU2();
         bytes = br.readString(length);
     }
+
+    @Override
+    public String toString() {
+        return bytes;
+    }
 }

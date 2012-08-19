@@ -2,6 +2,7 @@
 
 public abstract class Constant {
 
+    public Constant[] constant_pool;
     public int tag;
 
     public static Constant read(BinaryReader br) {

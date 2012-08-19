@@ -10,4 +10,11 @@ public class ConstantNameAndType extends Constant {
         name_index = br.readU2();
         descriptor_index = br.readU2();
     }
+
+    @Override
+    public String toString() {
+        Constant name = constant_pool[name_index];
+        Constant descriptor = constant_pool[descriptor_index];
+        return name.toString() + ":" + descriptor.toString();
+    }
 }

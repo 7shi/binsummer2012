@@ -28,6 +28,7 @@ public class ClassFile {
         constant_pool = new Constant[constant_pool_count];
         for (int i = 1; i < constant_pool_count; i++) {
             constant_pool[i] = Constant.read(br);
+            constant_pool[i].constant_pool = constant_pool;
         }
 
         access_flags = br.readU2();

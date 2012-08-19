@@ -10,4 +10,11 @@ public class ConstantMethodref extends Constant {
         class_index = br.readU2();
         name_and_type_index = br.readU2();
     }
+
+    @Override
+    public String toString() {
+        Constant cls = constant_pool[class_index];
+        Constant name_and_type = constant_pool[name_and_type_index];
+        return cls.toString() + "." + name_and_type.toString();
+    }
 }
