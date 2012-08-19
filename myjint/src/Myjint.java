@@ -45,7 +45,7 @@ public class Myjint {
                 case 0xb2:   // getstatic #u2
                     obj_getstatic = cf.constant_pool[br.readU2()];
                     break;
-                case 0xb6: { // invokevirtual #2
+                case 0xb6: { // invokevirtual #u2
                     String obj = obj_getstatic.toString();
                     String method = cf.constant_pool[br.readU2()].toString();
                     switch (method) {
