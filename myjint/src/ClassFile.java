@@ -15,7 +15,7 @@ public class ClassFile {
     public int fields_count;
     //public FieldInfo[] fields;
     public int methods_count;
-    //public MethodInfo[] methods;
+    public MethodInfo[] methods;
     public int attributes_count;
     public AttributeInfo[] attributes;
 
@@ -47,16 +47,15 @@ public class ClassFile {
         }
 
         methods_count = br.readU2();
+        methods = new MethodInfo[methods_count];
         for (int i = 0; i < methods_count; i++) {
+            methods[i] = new MethodInfo(br, constant_pool);
         }
 
-        // attributes_count = br.readU2();
-        // attributes = new AttributeInfo[attributes_count];
-        // for (int i = 0; i < attributes_count; i++) {
-        //     attributes[i] = AttributeInfo.read(br, constant_pool_count);
-        // }
-    }
-
-    public void run() {
+        attributes_count = br.readU2();
+        attributes = new AttributeInfo[attributes_count];
+        for (int i = 0; i < attributes_count; i++) {
+            attributes[i] = AttributeInfo.read(br, constant_pool);
+        }
     }
 }
