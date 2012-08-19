@@ -17,7 +17,7 @@ public class ClassFile {
     public int methods_count;
     //public MethodInfo[] methods;
     public int attributes_count;
-    //public AttributeInfo[] attributes;
+    public AttributeInfo[] attributes;
 
     public ClassFile(BinaryReader br) throws Exception {
         magic = br.readU4();
@@ -51,7 +51,9 @@ public class ClassFile {
         }
 
         // attributes_count = br.readU2();
+        // attributes = new AttributeInfo[attributes_count];
         // for (int i = 0; i < attributes_count; i++) {
+        //     attributes[i] = AttributeInfo.read(br, constant_pool_count);
         // }
     }
 
